@@ -17,6 +17,13 @@
 		C5B4C29C28C9313B00AC2291 /* CustomDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B4C29B28C9313B00AC2291 /* CustomDetailView.swift */; };
 		C5B4C29E28C9357600AC2291 /* ApiServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B4C29D28C9357600AC2291 /* ApiServices.swift */; };
 		C5DDCC9828C7BC0F0052AC82 /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DDCC9728C7BC0F0052AC82 /* ActivityDetailViewController.swift */; };
+		17BB685428C8E4BB00EFD22C /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */; };
+		AEA1601128C7B1D400F74EC9 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601028C7B1D400F74EC9 /* TabBarViewController.swift */; };
+		AEA1601328C7B29000F74EC9 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601228C7B29000F74EC9 /* CategoriesViewController.swift */; };
+		AEA1601528C7C2CB00F74EC9 /* CategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601428C7C2CB00F74EC9 /* CategoriesTableViewCell.swift */; };
+		AEA1601828C7CEA000F74EC9 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601728C7CEA000F74EC9 /* Category.swift */; };
+		AEA1601C28C8D31800F74EC9 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601B28C8D31800F74EC9 /* Activity.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +39,12 @@
 		C5B4C29B28C9313B00AC2291 /* CustomDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailView.swift; sourceTree = "<group>"; };
 		C5B4C29D28C9357600AC2291 /* ApiServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiServices.swift; sourceTree = "<group>"; };
 		C5DDCC9728C7BC0F0052AC82 /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
+		17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
+		AEA1601028C7B1D400F74EC9 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		AEA1601228C7B29000F74EC9 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
+		AEA1601428C7C2CB00F74EC9 /* CategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewCell.swift; sourceTree = "<group>"; };
+		AEA1601728C7CEA000F74EC9 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		AEA1601B28C8D31800F74EC9 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				C5B4C29D28C9357600AC2291 /* ApiServices.swift */,
+				AEA1601628C7CE7E00F74EC9 /* Model */,
 				17B06C7228C799D900F8C7AB /* AppDelegate.swift */,
 				17B06C7428C799D900F8C7AB /* SceneDelegate.swift */,
 				17B06C7628C799D900F8C7AB /* ViewController.swift */,
@@ -75,8 +89,21 @@
 				C5DDCC9728C7BC0F0052AC82 /* ActivityDetailViewController.swift */,
 				C5B4C29928C8D42300AC2291 /* ApiResponse.swift */,
 				C5B4C29B28C9313B00AC2291 /* CustomDetailView.swift */,
+				17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */,
+				AEA1601028C7B1D400F74EC9 /* TabBarViewController.swift */,
+				AEA1601228C7B29000F74EC9 /* CategoriesViewController.swift */,
+				AEA1601428C7C2CB00F74EC9 /* CategoriesTableViewCell.swift */,
 			);
 			path = NotBored;
+			sourceTree = "<group>";
+		};
+		AEA1601628C7CE7E00F74EC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AEA1601728C7CEA000F74EC9 /* Category.swift */,
+				AEA1601B28C8D31800F74EC9 /* Activity.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,8 +181,14 @@
 				C5B4C29E28C9357600AC2291 /* ApiServices.swift in Sources */,
 				C5B4C29C28C9313B00AC2291 /* CustomDetailView.swift in Sources */,
 				17B06C8928C79B5200F8C7AB /* LoginViewController.swift in Sources */,
+				AEA1601828C7CEA000F74EC9 /* Category.swift in Sources */,
 				17B06C7728C799D900F8C7AB /* ViewController.swift in Sources */,
+				AEA1601328C7B29000F74EC9 /* CategoriesViewController.swift in Sources */,
 				17B06C7328C799D900F8C7AB /* AppDelegate.swift in Sources */,
+				17BB685428C8E4BB00EFD22C /* TermsAndConditionsViewController.swift in Sources */,
+				AEA1601128C7B1D400F74EC9 /* TabBarViewController.swift in Sources */,
+				AEA1601C28C8D31800F74EC9 /* Activity.swift in Sources */,
+				AEA1601528C7C2CB00F74EC9 /* CategoriesTableViewCell.swift in Sources */,
 				17B06C7528C799D900F8C7AB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

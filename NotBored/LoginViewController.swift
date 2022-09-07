@@ -8,17 +8,145 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Not Bored"
+        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.textColor = UIColor(named: "Blue Primary")
+        return label
+    }()
+    
+    private lazy var participantsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Participants"
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        return label
+    }()
+    
+    private lazy var participantsTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .white
+        textField.keyboardType = .numberPad
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        return textField
+    }()
+    
+    private lazy var startButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Start", for: .normal)
+        button.backgroundColor = .gray
+        button.isEnabled = false
+        button.addTarget(self, action:#selector(startPressed) , for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var termsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.black, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributeString = NSMutableAttributedString(
+            string: "Terms and Conditions",
+            attributes: attributes
+        )
+        button.setAttributedTitle(attributeString, for: .normal)
+        button.addTarget(self, action: #selector(termsAndConditionPressed), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Delegates
+        participantsTextField.delegate = self
         setupView()
-        
+        setupConstraints()
     }
     
     //MARK: View Build
     private func setupView(){
-        //Estilos
-        self.view.backgroundColor = UIColor(red: 0.85, green: 0.96, blue: 1.00, alpha: 1.00)
+        //Add views to main view of VC
+        self.view.addSubview(titleLabel)
+        self.view.addSubview(participantsLabel)
+        self.view.addSubview(participantsTextField)
+        self.view.addSubview(startButton)
+        self.view.addSubview(termsButton)
+        //Styles
+        self.view.backgroundColor = UIColor(named: "Blue Secondary")
     }
+    
+    private func setupConstraints(){
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            
+            participantsTextField.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            participantsTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            participantsTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            participantsTextField.heightAnchor.constraint(equalToConstant: 30),
+            
+            participantsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            participantsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            participantsLabel.topAnchor.constraint(equalTo: participantsTextField.topAnchor, constant: -30),
+            
+            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            
+            termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            termsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            termsButton.bottomAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 40)
+        ])
+    }
+    
+    //MARK: Actions
+    
+    private func toggleButtonStatus(active: Bool){
+        if active {
+            startButton.backgroundColor = UIColor(named: "Blue Primary")
+        } else {
+            startButton.backgroundColor = .gray
+        }
+        
+        startButton.isEnabled = active
+    }
+    
+    @objc func startPressed(){
+        //TODO: Conectar a pantalla de Actividades
+    }
+    
+    @objc func termsAndConditionPressed(){
+        let vc = TermsAndConditionsViewController(nibName: nil, bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true)
+    }
+}
 
+//MARK: UITextFieldDelegate
+
+extension LoginViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc private func textFieldDidChange(){
+        guard participantsTextField.text?.isEmpty == false else{
+            toggleButtonStatus(active: false)
+            return
+        }
+        
+        guard let participants = Int(participantsTextField.text!) else {
+            return
+        }
+        
+        participants > 0 ? toggleButtonStatus(active: true) : toggleButtonStatus(active: false)
+    }
 }
