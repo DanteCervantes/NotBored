@@ -63,14 +63,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Delegates
+        participantsTextField.delegate = self
         setupView()
         setupConstraints()
     }
     
     //MARK: View Build
     private func setupView(){
-        //Delegates
-        participantsTextField.delegate = self
         //Add views to main view of VC
         self.view.addSubview(titleLabel)
         self.view.addSubview(participantsLabel)
@@ -122,7 +122,9 @@ class LoginViewController: UIViewController {
     }
     
     @objc func termsAndConditionPressed(){
-        //TODO: Mostrar T&C's
+        let vc = TermsAndConditionsViewController(nibName: nil, bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true)
     }
 }
 

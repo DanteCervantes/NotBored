@@ -13,6 +13,7 @@
 		17B06C7C28C799DA00F8C7AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17B06C7B28C799DA00F8C7AB /* Assets.xcassets */; };
 		17B06C7F28C799DA00F8C7AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17B06C7D28C799DA00F8C7AB /* LaunchScreen.storyboard */; };
 		17B06C8928C79B5200F8C7AB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B06C8828C79B5200F8C7AB /* LoginViewController.swift */; };
+		17BB685428C8E4BB00EFD22C /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		17B06C7E28C799DA00F8C7AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17B06C8028C799DA00F8C7AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17B06C8828C79B5200F8C7AB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				17B06C7D28C799DA00F8C7AB /* LaunchScreen.storyboard */,
 				17B06C8028C799DA00F8C7AB /* Info.plist */,
 				17B06C8828C79B5200F8C7AB /* LoginViewController.swift */,
+				17BB685328C8E4BB00EFD22C /* TermsAndConditionsViewController.swift */,
 			);
 			path = NotBored;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 				17B06C8928C79B5200F8C7AB /* LoginViewController.swift in Sources */,
 				17B06C7728C799D900F8C7AB /* ViewController.swift in Sources */,
 				17B06C7328C799D900F8C7AB /* AppDelegate.swift in Sources */,
+				17BB685428C8E4BB00EFD22C /* TermsAndConditionsViewController.swift in Sources */,
 				17B06C7528C799D900F8C7AB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
