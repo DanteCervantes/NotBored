@@ -46,7 +46,7 @@ class customDetailView: UIView {
     
     private lazy var customValueLabel: UILabel = {
         let valueLabel = UILabel()
-        valueLabel.text = value ?? "N/A"
+        valueLabel.text = value ?? ""
         valueLabel.font = UIFont.systemFont(ofSize: 28.0)
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
         valueLabel.textAlignment = .right

@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum Category: String, CaseIterable {
+enum Category: String, CaseIterable, Codable {
     case education, recreational, social, diy, charity, cooking, relaxation, music, busywork
 }

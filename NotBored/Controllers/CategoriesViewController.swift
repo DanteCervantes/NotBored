@@ -10,6 +10,7 @@ import UIKit
 class CategoriesViewController: UIViewController {
 
     private let categories = Category.allCases.map { $0.rawValue }
+    var participants: Int?
     
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -36,6 +37,8 @@ class CategoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Blue Primary")
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        print(participants ?? 0)
         setupConstraints()
     }
         
