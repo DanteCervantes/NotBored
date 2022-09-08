@@ -16,9 +16,12 @@ class ActivityDetailViewController: UIViewController {
     private lazy var activityTitleLabel: UILabel = {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
+        aLabel.numberOfLines = 0
+        aLabel.adjustsFontSizeToFitWidth = true
+        aLabel.minimumScaleFactor = 0.2
         aLabel.text = activity?.activity ?? "Not found"
         aLabel.textColor = .black
-        aLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        aLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         aLabel.textAlignment = .center
         return aLabel
     }()
@@ -30,7 +33,7 @@ class ActivityDetailViewController: UIViewController {
     
     private lazy var priceDetailView: customDetailView = {
         
-    let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: activity?.priceToString ?? "N/A")
+        let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: activity?.priceToString ?? "N/A")
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
@@ -38,6 +41,7 @@ class ActivityDetailViewController: UIViewController {
     private lazy var typeDetailView: customDetailView = {
         let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: activity?.type.rawValue.capitalized, value: nil)
         detailView.translatesAutoresizingMaskIntoConstraints = false
+        detailView.isHidden = true
         return detailView
     }()
     
@@ -52,16 +56,16 @@ class ActivityDetailViewController: UIViewController {
     }()
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         requestActivity()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        requestActivity()
-        
-        if let title = activity?.type.rawValue {
-            self.title = title
+        self.title = "Random"
+        if let titleType = selectedType?.rawValue {
+            self.title = titleType.capitalized
         }
         
         tryAnotherButton.addTarget(self, action: #selector(requestActivity), for: .touchDown)
@@ -72,12 +76,13 @@ class ActivityDetailViewController: UIViewController {
     
     private func setupView() {
         self.view.backgroundColor = UIColor(named: "Blue Secondary")
-        
         self.view.addSubview(activityTitleLabel)
         self.view.addSubview(participantsDetailView)
         self.view.addSubview(priceDetailView)
         self.view.addSubview(typeDetailView)
         self.view.addSubview(tryAnotherButton)
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func setupConstraints() {
@@ -99,9 +104,7 @@ class ActivityDetailViewController: UIViewController {
             typeDetailView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             typeDetailView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             
-            
-            
-            tryAnotherButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
+            tryAnotherButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             tryAnotherButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             tryAnotherButton.heightAnchor.constraint(equalToConstant: 60),
             tryAnotherButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -40)
@@ -110,17 +113,32 @@ class ActivityDetailViewController: UIViewController {
     
     @objc private func requestActivity() {
         ApiCaller.shared.getActivity(participants: selectedParticipants, price: nil, type: selectedType) { result in
-            self.activity = try? result.get()
             DispatchQueue.main.async {
-                self.activityTitleLabel.text = self.activity?.activity
-                self.participantsDetailView.value = String(self.activity?.participants ?? 0)
-                self.priceDetailView.value = self.activity?.priceToString
-                if !self.isRandomlySelected {
-                    self.typeDetailView = customDetailView(image: nil, title: nil, value: nil)
+                switch result {
+                case .success(let data):
+                    self.activityTitleLabel.text = data.activity
+                    self.participantsDetailView.value = String(data.participants)
+                    self.priceDetailView.value = data.priceToString
+                    print(self.isRandomlySelected)
+                    if self.isRandomlySelected {
+                        self.typeDetailView.isHidden = false
+                        self.typeDetailView.title = data.type.rawValue.capitalized
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    //Create new Alert
+                    let dialogMessage = UIAlertController(title: "Error", message: "No se encontró una actividad con sus preferencias", preferredStyle: .alert)
+                    
+                    // Create OK button with action handler
+                    let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    //Add OK button to a dialog message
+                    dialogMessage.addAction(ok)
+                    // Present Alert to
+                    self.present(dialogMessage, animated: true, completion: nil)
                 }
-                self.typeDetailView.title = self.activity?.type.rawValue.capitalized
             }
-            print("Request Activity Result: \n", self.activity)
         }
     }
 }
