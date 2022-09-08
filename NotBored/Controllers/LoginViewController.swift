@@ -9,11 +9,13 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    private var participants = 0
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Not Bored"
-        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 44, weight: .bold)
         label.textColor = UIColor(named: "Blue Primary")
         return label
     }()
@@ -22,7 +24,7 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Participants"
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
@@ -32,6 +34,7 @@ class LoginViewController: UIViewController {
         textField.backgroundColor = .white
         textField.keyboardType = .numberPad
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        textField.layer.cornerRadius = 8
         return textField
     }()
     
@@ -41,6 +44,7 @@ class LoginViewController: UIViewController {
         button.setTitle("Start", for: .normal)
         button.backgroundColor = .gray
         button.isEnabled = false
+        button.layer.cornerRadius = 8
         button.addTarget(self, action:#selector(startPressed) , for: .touchUpInside)
         return button
     }()
@@ -86,22 +90,23 @@ class LoginViewController: UIViewController {
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             
+            participantsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            participantsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            participantsLabel.topAnchor.constraint(equalTo: participantsTextField.topAnchor, constant: -40),
+            
             participantsTextField.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             participantsTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             participantsTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            participantsTextField.heightAnchor.constraint(equalToConstant: 30),
-            
-            participantsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            participantsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            participantsLabel.topAnchor.constraint(equalTo: participantsTextField.topAnchor, constant: -30),
+            participantsTextField.heightAnchor.constraint(equalToConstant: 40),
             
             startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            startButton.heightAnchor.constraint(equalToConstant: 60),
             
             termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             termsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            termsButton.bottomAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 40)
+            termsButton.bottomAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 60)
         ])
     }
     
@@ -118,7 +123,10 @@ class LoginViewController: UIViewController {
     }
     
     @objc func startPressed(){
-        //TODO: Conectar a pantalla de Actividades
+        let vc = TabBarViewController(nibName: nil, bundle: nil)
+        vc.participants = participants
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true)
     }
     
     @objc func termsAndConditionPressed(){
@@ -147,6 +155,7 @@ extension LoginViewController : UITextFieldDelegate {
             return
         }
         
+        self.participants = participants
         participants > 0 ? toggleButtonStatus(active: true) : toggleButtonStatus(active: false)
     }
 }
