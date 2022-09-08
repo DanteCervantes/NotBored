@@ -8,47 +8,34 @@
 import UIKit
 
 class ActivityDetailViewController: UIViewController {
-    let apiServices = ApiServices()
-    var selectedType: String? = "Test Activity"
-    var apiResponse: ApiResponse?
+    var selectedType: Category?
+    var selectedParticipants: Int?
+    var activity: Activity?
     
     private lazy var activityTitleLabel: UILabel = {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
-        aLabel.text = apiResponse?.activity ?? "Not found"
+        aLabel.text = activity?.activity ?? "Not found"
         aLabel.textColor = .black
         aLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         aLabel.textAlignment = .center
         return aLabel
     }()
     private lazy var participantsDetailView: customDetailView = {
-        let detailView = customDetailView(image: UIImage(systemName: "person.fill"), title: "Participants", value: String(apiResponse?.participants ?? 0))
+        let detailView = customDetailView(image: UIImage(systemName: "person.fill"), title: "Participants", value: String(activity?.participants ?? 0))
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
     
     private lazy var priceDetailView: customDetailView = {
-        var valueString: String? = nil
         
-        if let price = apiResponse?.price {
-            switch price {
-            case 0:
-                valueString = "Free"
-                break
-            case ...0.3:
-                valueString = "Medium"
-            default:
-                valueString = "High"
-            }
-        }
-        
-        let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: String(valueString ?? "N/A"))
+    let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: activity?.priceToString ?? "N/A")
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
     
     private lazy var typeDetailView: customDetailView = {
-        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: apiResponse?.type, value: nil)
+        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: activity?.type.rawValue, value: nil)
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
@@ -63,14 +50,18 @@ class ActivityDetailViewController: UIViewController {
         return aButton
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        requestActivity()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let title = apiResponse?.type {
+        requestActivity()
+        
+        if let title = activity?.type.rawValue {
             self.title = title
         }
-        
-        requestActivity()
         
         tryAnotherButton.addTarget(self, action: #selector(requestActivity), for: .touchDown)
         
@@ -114,9 +105,9 @@ class ActivityDetailViewController: UIViewController {
     }
     
     @objc private func requestActivity() {
-        if let selectedType = selectedType {
-            apiResponse = apiServices.activityRequest(type: selectedType)
+        ApiCaller.shared.getActivity(participants: selectedParticipants, price: nil, type: selectedType) { result in
+            self.activity = try? result.get()
+            print("Request Activity Result: \n", self.activity)
         }
-        
     }
 }

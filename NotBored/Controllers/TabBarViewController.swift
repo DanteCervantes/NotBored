@@ -65,12 +65,17 @@ class TabBarViewController: UITabBarController {
 }
 
 extension TabBarViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        let tabBarIndex = tabBarController.selectedIndex
-        if tabBarIndex == 1 {
-            //Llamo al componente de category pasadole el type de actividad
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+            let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)!
+            if selectedIndex == 1{
+                //Do anything.
+                let prueba = ActivityDetailViewController()
+                prueba.modalPresentationStyle = .fullScreen
+                navigationController?.pushViewController(prueba, animated: true)
+                return false
+            }
+            return true
         }
-   }
 }
 
 

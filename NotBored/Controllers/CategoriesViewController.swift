@@ -78,5 +78,12 @@ extension CategoriesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(categories[indexPath.row])
         //Llamo al componente de category pasadole el type de actividad
+        guard let category = Category(rawValue: categories[indexPath.row]) else { return }
+        
+        let vc = ActivityDetailViewController()
+        vc.selectedParticipants = participants
+        vc.selectedType = category
+        vc.modalPresentationStyle = .overFullScreen
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

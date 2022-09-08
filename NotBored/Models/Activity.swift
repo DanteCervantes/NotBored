@@ -15,4 +15,14 @@ struct Activity: Codable {
     var link: String?
     var key: String
     var accessibility: Float
+    
+    var priceToString: String {
+        switch price {
+            case 0: return "Free"
+            case 0..<0.3: return "Low"
+            case 0.3..<0.6: return "Medium"
+            case 0.6...1: return "High"
+            default: return ""
+        }
+    }
 }
