@@ -11,6 +11,7 @@ class ActivityDetailViewController: UIViewController {
     var selectedType: Category?
     var selectedParticipants: Int?
     var activity: Activity?
+    var isRandomlySelected: Bool = false
     
     private lazy var activityTitleLabel: UILabel = {
         let aLabel = UILabel()
@@ -35,7 +36,7 @@ class ActivityDetailViewController: UIViewController {
     }()
     
     private lazy var typeDetailView: customDetailView = {
-        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: activity?.type.rawValue, value: nil)
+        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: activity?.type.rawValue.capitalized, value: nil)
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
@@ -80,6 +81,7 @@ class ActivityDetailViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        
         NSLayoutConstraint.activate([
             activityTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
             activityTitleLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
@@ -97,6 +99,8 @@ class ActivityDetailViewController: UIViewController {
             typeDetailView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             typeDetailView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             
+            
+            
             tryAnotherButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
             tryAnotherButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             tryAnotherButton.heightAnchor.constraint(equalToConstant: 60),
@@ -107,6 +111,15 @@ class ActivityDetailViewController: UIViewController {
     @objc private func requestActivity() {
         ApiCaller.shared.getActivity(participants: selectedParticipants, price: nil, type: selectedType) { result in
             self.activity = try? result.get()
+            DispatchQueue.main.async {
+                self.activityTitleLabel.text = self.activity?.activity
+                self.participantsDetailView.value = String(self.activity?.participants ?? 0)
+                self.priceDetailView.value = self.activity?.priceToString
+                if !self.isRandomlySelected {
+                    self.typeDetailView = customDetailView(image: nil, title: nil, value: nil)
+                }
+                self.typeDetailView.title = self.activity?.type.rawValue.capitalized
+            }
             print("Request Activity Result: \n", self.activity)
         }
     }

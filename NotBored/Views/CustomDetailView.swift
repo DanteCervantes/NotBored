@@ -8,9 +8,28 @@
 import UIKit
 
 class customDetailView: UIView {
-    var image: UIImage?
-    var title: String?
-    var value: String?
+    var image: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.customImage.image = self.image
+            }
+        }
+    }
+    var title: String? {
+        didSet {
+            DispatchQueue.main.async {
+                self.customTitleLabel.text = self.title
+            }
+        }
+    
+    }
+    var value: String? {
+        didSet {
+            DispatchQueue.main.async {
+                self.customValueLabel.text = self.value
+            }
+        }
+    }
     
     required init(image: UIImage?, title: String?, value: String?) {
         self.image = image
@@ -37,7 +56,7 @@ class customDetailView: UIView {
     
     private lazy var customTitleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.text = title ?? "N/A"
+        titleLabel.text = title ?? ""
         titleLabel.font = UIFont.systemFont(ofSize: 28.0)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .left

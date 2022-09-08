@@ -123,8 +123,9 @@ class LoginViewController: UIViewController {
     }
     
     @objc func startPressed(){
-        let vc = TabBarViewController(nibName: nil, bundle: nil)
-        vc.participants = participants
+        let tabBarvc = TabBarViewController()
+        tabBarvc.participants = participants
+        let vc = UINavigationController(rootViewController: tabBarvc)
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true)
     }
