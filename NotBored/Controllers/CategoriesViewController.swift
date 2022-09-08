@@ -83,7 +83,6 @@ extension CategoriesViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = ActivityDetailViewController()
         vc.selectedParticipants = participants
         vc.selectedType = category
-        vc.modalPresentationStyle = .overFullScreen
-        navigationController?.pushViewController(vc, animated: true)
+        tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 }
