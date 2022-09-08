@@ -8,47 +8,35 @@
 import UIKit
 
 class ActivityDetailViewController: UIViewController {
-    let apiServices = ApiServices()
-    var selectedType: String? = "Test Activity"
-    var apiResponse: ApiResponse?
+    var selectedType: Category?
+    var selectedParticipants: Int?
+    var activity: Activity?
+    var isRandomlySelected: Bool = false
     
     private lazy var activityTitleLabel: UILabel = {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
-        aLabel.text = apiResponse?.activity ?? "Not found"
+        aLabel.text = activity?.activity ?? "Not found"
         aLabel.textColor = .black
         aLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         aLabel.textAlignment = .center
         return aLabel
     }()
     private lazy var participantsDetailView: customDetailView = {
-        let detailView = customDetailView(image: UIImage(systemName: "person.fill"), title: "Participants", value: String(apiResponse?.participants ?? 0))
+        let detailView = customDetailView(image: UIImage(systemName: "person.fill"), title: "Participants", value: String(activity?.participants ?? 0))
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
     
     private lazy var priceDetailView: customDetailView = {
-        var valueString: String? = nil
         
-        if let price = apiResponse?.price {
-            switch price {
-            case 0:
-                valueString = "Free"
-                break
-            case ...0.3:
-                valueString = "Medium"
-            default:
-                valueString = "High"
-            }
-        }
-        
-        let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: String(valueString ?? "N/A"))
+    let detailView = customDetailView(image: UIImage(systemName: "dollarsign.circle"), title: "Price", value: activity?.priceToString ?? "N/A")
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
     
     private lazy var typeDetailView: customDetailView = {
-        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: apiResponse?.type, value: nil)
+        let detailView = customDetailView(image: UIImage(systemName: "list.bullet"), title: activity?.type.rawValue.capitalized, value: nil)
         detailView.translatesAutoresizingMaskIntoConstraints = false
         return detailView
     }()
@@ -63,14 +51,18 @@ class ActivityDetailViewController: UIViewController {
         return aButton
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        requestActivity()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let title = apiResponse?.type {
+        requestActivity()
+        
+        if let title = activity?.type.rawValue {
             self.title = title
         }
-        
-        requestActivity()
         
         tryAnotherButton.addTarget(self, action: #selector(requestActivity), for: .touchDown)
         
@@ -89,6 +81,7 @@ class ActivityDetailViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        
         NSLayoutConstraint.activate([
             activityTitleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40),
             activityTitleLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
@@ -106,6 +99,8 @@ class ActivityDetailViewController: UIViewController {
             typeDetailView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             typeDetailView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             
+            
+            
             tryAnotherButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
             tryAnotherButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 40),
             tryAnotherButton.heightAnchor.constraint(equalToConstant: 60),
@@ -114,9 +109,18 @@ class ActivityDetailViewController: UIViewController {
     }
     
     @objc private func requestActivity() {
-        if let selectedType = selectedType {
-            apiResponse = apiServices.activityRequest(type: selectedType)
+        ApiCaller.shared.getActivity(participants: selectedParticipants, price: nil, type: selectedType) { result in
+            self.activity = try? result.get()
+            DispatchQueue.main.async {
+                self.activityTitleLabel.text = self.activity?.activity
+                self.participantsDetailView.value = String(self.activity?.participants ?? 0)
+                self.priceDetailView.value = self.activity?.priceToString
+                if !self.isRandomlySelected {
+                    self.typeDetailView = customDetailView(image: nil, title: nil, value: nil)
+                }
+                self.typeDetailView.title = self.activity?.type.rawValue.capitalized
+            }
+            print("Request Activity Result: \n", self.activity)
         }
-        
     }
 }
