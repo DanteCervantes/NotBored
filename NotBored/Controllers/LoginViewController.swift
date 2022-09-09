@@ -10,6 +10,7 @@ import UIKit
 class LoginViewController: UIViewController {
     
     private var participants = 0
+    private var termsAccepted = false
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -61,8 +62,18 @@ class LoginViewController: UIViewController {
             attributes: attributes
         )
         button.setAttributedTitle(attributeString, for: .normal)
+        button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(termsAndConditionPressed), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var termsCheckBoxButton: UIButton = {
+        let checkBoxButton = UIButton()
+        checkBoxButton.setImage(UIImage(systemName: "circle"), for: .normal)
+        checkBoxButton.tintColor = .black
+        checkBoxButton.translatesAutoresizingMaskIntoConstraints = false
+        checkBoxButton.addTarget(self, action: #selector(termsCheckBoxButtonPressed), for: .touchUpInside)
+        return checkBoxButton
     }()
     
     override func viewDidLoad() {
@@ -80,6 +91,7 @@ class LoginViewController: UIViewController {
         self.view.addSubview(participantsLabel)
         self.view.addSubview(participantsTextField)
         self.view.addSubview(startButton)
+        self.view.addSubview(termsCheckBoxButton)
         self.view.addSubview(termsButton)
         //Styles
         self.view.backgroundColor = UIColor(named: "Blue Secondary")
@@ -104,7 +116,12 @@ class LoginViewController: UIViewController {
             startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
             startButton.heightAnchor.constraint(equalToConstant: 60),
             
-            termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            termsCheckBoxButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            termsCheckBoxButton.bottomAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 60),
+            termsCheckBoxButton.heightAnchor.constraint(equalToConstant: 30),
+            termsCheckBoxButton.widthAnchor.constraint(equalToConstant: 30),
+            
+            termsButton.leadingAnchor.constraint(equalTo: termsCheckBoxButton.trailingAnchor, constant: 20),
             termsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             termsButton.bottomAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 60)
         ])
@@ -135,6 +152,12 @@ class LoginViewController: UIViewController {
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true)
     }
+    
+    @objc func termsCheckBoxButtonPressed() {
+        termsAccepted.toggle()
+        termsCheckBoxButton.setImage(termsAccepted ? UIImage(systemName: "checkmark.circle") : UIImage(systemName: "circle"), for: .normal)
+        textFieldDidChange()
+    }
 }
 
 //MARK: UITextFieldDelegate
@@ -147,6 +170,12 @@ extension LoginViewController : UITextFieldDelegate {
     }
     
     @objc private func textFieldDidChange(){
+        
+        guard termsAccepted else {
+            toggleButtonStatus(active: false)
+            return
+        }
+        
         guard participantsTextField.text?.isEmpty == false else{
             toggleButtonStatus(active: false)
             return
