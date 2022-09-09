@@ -38,7 +38,6 @@ class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Blue Primary")
         navigationController?.setNavigationBarHidden(true, animated: false)
-        print(participants ?? 0)
         setupConstraints()
     }
         
@@ -76,7 +75,6 @@ extension CategoriesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(categories[indexPath.row])
         //Llamo al componente de category pasadole el type de actividad
         guard let category = Category(rawValue: categories[indexPath.row]) else { return }
         

@@ -119,13 +119,11 @@ class ActivityDetailViewController: UIViewController {
                     self.activityTitleLabel.text = data.activity
                     self.participantsDetailView.value = String(data.participants)
                     self.priceDetailView.value = data.priceToString
-                    print(self.isRandomlySelected)
                     if self.isRandomlySelected {
                         self.typeDetailView.isHidden = false
                         self.typeDetailView.title = data.type.rawValue.capitalized
                     }
                 case .failure(let error):
-                    print(error.localizedDescription)
                     //Create new Alert
                     let dialogMessage = UIAlertController(title: "Error", message: "No se encontró una actividad con sus preferencias", preferredStyle: .alert)
                     
