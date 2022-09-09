@@ -20,7 +20,6 @@
 		AEA1601528C7C2CB00F74EC9 /* CategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601428C7C2CB00F74EC9 /* CategoriesTableViewCell.swift */; };
 		AEA1601828C7CEA000F74EC9 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601728C7CEA000F74EC9 /* Category.swift */; };
 		AEA1601C28C8D31800F74EC9 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1601B28C8D31800F74EC9 /* Activity.swift */; };
-		C543C25928CB9B5900E13FC9 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C543C25828CB9B5900E13FC9 /* CheckBoxButton.swift */; };
 		C5B4C29C28C9313B00AC2291 /* CustomDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B4C29B28C9313B00AC2291 /* CustomDetailView.swift */; };
 		C5DDCC9828C7BC0F0052AC82 /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DDCC9728C7BC0F0052AC82 /* ActivityDetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +40,6 @@
 		AEA1601428C7C2CB00F74EC9 /* CategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewCell.swift; sourceTree = "<group>"; };
 		AEA1601728C7CEA000F74EC9 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		AEA1601B28C8D31800F74EC9 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
-		C543C25828CB9B5900E13FC9 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 		C5B4C29B28C9313B00AC2291 /* CustomDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailView.swift; sourceTree = "<group>"; };
 		C5DDCC9728C7BC0F0052AC82 /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,7 +84,6 @@
 				17B06C7B28C799DA00F8C7AB /* Assets.xcassets */,
 				17B06C7D28C799DA00F8C7AB /* LaunchScreen.storyboard */,
 				17B06C8028C799DA00F8C7AB /* Info.plist */,
-				C543C25828CB9B5900E13FC9 /* CheckBoxButton.swift */,
 			);
 			path = NotBored;
 			sourceTree = "<group>";
@@ -203,7 +200,6 @@
 				C5B4C29C28C9313B00AC2291 /* CustomDetailView.swift in Sources */,
 				AE1F61D328C98A2500A2D07E /* ApiCaller.swift in Sources */,
 				17B06C8928C79B5200F8C7AB /* LoginViewController.swift in Sources */,
-				C543C25928CB9B5900E13FC9 /* CheckBoxButton.swift in Sources */,
 				AEA1601828C7CEA000F74EC9 /* Category.swift in Sources */,
 				17B06C7728C799D900F8C7AB /* ViewController.swift in Sources */,
 				AEA1601328C7B29000F74EC9 /* CategoriesViewController.swift in Sources */,
